@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import main.java.engine.DijkstraAlgorithm;
@@ -24,8 +25,7 @@ public class TestDijkstraAlgorithm {
 		nodes = new ArrayList<Vertex>();
 		edges = new ArrayList<Edge>();
 		for (int i = 0; i < 11; i++) {
-			Vertex location = new Vertex("Node_" + i, "Node_" + i);
-			nodes.add(location);
+			addVertex("Node_" + i, "Node_" + i);
 		}
 
 		addLane("Edge_0", 0, 1, 85);
@@ -44,8 +44,40 @@ public class TestDijkstraAlgorithm {
 		// Lets check from location Loc_1 to Loc_10
 		Graph graph = new Graph(nodes, edges);
 		DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph);
-		dijkstra.execute(nodes.get(0));
+		dijkstra.execute(nodes.get(3));
 		LinkedList<Vertex> path = dijkstra.getPath(nodes.get(10));
+
+		assertNotNull(path);
+		assertTrue(path.size() > 0);
+
+		for (Vertex vertex : path) {
+			System.out.println(vertex);
+		}
+
+	}
+
+	@Test
+	public void fourCities() {
+		nodes = new ArrayList<Vertex>();
+		edges = new ArrayList<Edge>();
+
+		addVertex("0", "BCN_0");
+		addVertex("1", "MIL");
+		addVertex("2", "FCO");
+		addVertex("3", "BCN_1");
+
+		addLane("Edge_0", 0, 1, 2);
+		addLane("Edge_1", 0, 2, 1);
+		addLane("Edge_2", 1, 2, 3);
+		addLane("Edge_3", 1, 3, 4);
+		addLane("Edge_4", 2, 1, 5);
+		addLane("Edge_5", 2, 3, 2);
+
+		// Lets check from location Loc_1 to Loc_3
+		Graph graph = new Graph(nodes, edges);
+		DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph);
+		dijkstra.execute(nodes.get(0));
+		LinkedList<Vertex> path = dijkstra.getPath(nodes.get(3));
 
 		assertNotNull(path);
 		assertTrue(path.size() > 0);
@@ -59,5 +91,10 @@ public class TestDijkstraAlgorithm {
 	private void addLane(String laneId, int sourceLocNo, int destLocNo, int duration) {
 		Edge lane = new Edge(laneId, nodes.get(sourceLocNo), nodes.get(destLocNo), duration);
 		edges.add(lane);
+	}
+
+	public void addVertex(String id, String name) {
+		Vertex location = new Vertex(id, name);
+		nodes.add(location);
 	}
 }
