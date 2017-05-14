@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import main.java.engine.DijkstraAlgorithm;
@@ -56,6 +55,7 @@ public class TestDijkstraAlgorithm {
 
 	}
 
+	//FIXME Not working as expected. We have problems with bidirectional paths
 	@Test
 	public void fourCities() {
 		nodes = new ArrayList<Vertex>();
